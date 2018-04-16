@@ -9,7 +9,7 @@ Docker running Nginx, PHP-FPM, Composer, MySQL and PHPMyAdmin.
 	Verificar:  que el archivo etc/nginx/default y default.template.conf esté así:
 
  		location / {
-		        try_files $uri $uri/ /index.php;
+		        try_files $uri $uri/ /index.php$query_string;
 		}
 
     		location ~ \.php$ {
@@ -20,8 +20,11 @@ Docker running Nginx, PHP-FPM, Composer, MySQL and PHPMyAdmin.
 		        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 		        fastcgi_param PATH_INFO $fastcgi_path_info;
 	    }
+
+	Instalar un proyecto de laravel a la carpeta WEB y/o ejecutar composer install/update
 	
-	Asignar permisos 777 a storage dentro de app para los logs
+	Asignar permisos 777 a storage dentro de app para los logs => chmod 777 -R storage/
+	crear el key:generate
 		1. Folder web -> public (colocar todo el contenido de la carpeta public del proyecto laravel)
 		2. Editar el archivo index.php dejando 	la línea: 24 => require __DIR__.'/../app/vendor/autoload.php';
 						la línea  38 => $app = require_once __DIR__.'/../app/bootstrap/app.php';
@@ -32,6 +35,8 @@ Docker running Nginx, PHP-FPM, Composer, MySQL and PHPMyAdmin.
 					DB_DATABASE=test
 					DB_USERNAME=root
 					DB_PASSWORD=root
+		4. Para el enlace simbolico de la carpeta storage hacia la carpeta public, hacerlo desde dentro del docker, 
+		   asi como todos los cmando de migrations y seeders
 	
 
 ## Overview
